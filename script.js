@@ -39,27 +39,39 @@ document.addEventListener('DOMContentLoaded', () => {
         loadSlideshow();
     }
 
-    // Monitorar o scroll da página
+    const hamburger = document.getElementById('hamburger');
+    const nav = document.getElementById('nav');
+    hamburger.addEventListener('click', () => {
+        nav.classList.toggle('show');
+    });
+
+
+// Monitorar o scroll da página
     let lastScrollTop = 0;
     window.addEventListener('scroll', () => {
         let header = document.getElementById('header');
         let scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-        if (scrollTop > lastScrollTop) {
-            header.classList.add('hidden'); // Esconder o header ao rolar para baixo
+        if (window.innerWidth <= 768) {
+            if (scrollTop > lastScrollTop) {
+                nav.classList.remove('show'); // Esconder o menu ao rolar para baixo
+            } else {
+                nav.classList.add('show'); // Mostrar o menu ao rolar para cima
+            }
+            // Ocultar o menu e mostrar apenas o hambúrguer ao rolar
+            if (scrollTop > 50) {
+                header.classList.add('hide-menu');
+            } else {
+                header.classList.remove('hide-menu');
+            }
         } else {
-            header.classList.remove('hidden'); // Mostrar o header ao rolar para cima
+            if (scrollTop > lastScrollTop) {
+                header.classList.add('hidden'); // Esconder o header ao rolar para baixo
+            } else {
+                header.classList.remove('hidden'); // Mostrar o header ao rolar para cima
+            }
         }
         lastScrollTop = scrollTop;
     });
-
-    // Mostrar o header quando o mouse estiver próximo do topo
-    document.addEventListener('mousemove', (event) => {
-        let header = document.getElementById('header');
-        if (event.clientY < 50) {
-            header.classList.remove('hidden');
-        }
-    });
-
     // Mostrar o header quando o mouse estiver sobre ele
     let header = document.getElementById('header');
     header.addEventListener('mouseenter', () => {
